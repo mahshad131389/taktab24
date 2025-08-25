@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<title>Cannon Ball</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="theme-color" content="transparent">
+	
+	<!-- Made with Construct, the game and app creator :: https://www.construct.net -->
+	<meta name="generator" content="Scirra Construct">
+
+
+
+	<link rel="manifest" href="appmanifest.json">
+	<link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png">
+	<link rel="apple-touch-icon" sizes="256x256" href="icons/icon-256.png">
+	<link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+	<link rel="icon" type="image/png" href="icons/icon-512.png">
+
+	<link rel="stylesheet" href="style.css">
+	<style>
+	  html, body { background: transparent !important; }
+	  canvas { background-color: transparent !important; }
+	</style>
+
+
+
+</head> 
+ 
+<body>
+
+	
+
+<script>
+if (location.protocol.substr(0, 4) === "file")
+{
+	alert("Web exports won't work until you upload them. (When running on the file: protocol, browsers block many features from working for security reasons.)");
+}
+</script>
+	
+	<noscript>
+		<div id="notSupportedWrap">
+			<h2 id="notSupportedTitle">This content requires JavaScript</h2>
+			<p class="notSupportedMessage">JavaScript appears to be disabled. Please enable it to view this content.</p>
+		</div>
+	</noscript>
+	<script src="scripts/modernjscheck.js"></script>
+	<script src="scripts/supportcheck.js"></script>
+	<script>
+	// Force WebGL alpha so the canvas is transparent over the camera
+	(function(){
+	  const originalGetContext = HTMLCanvasElement.prototype.getContext;
+	  HTMLCanvasElement.prototype.getContext = function(type, attrs){
+	    if (type === 'webgl' || type === 'webgl2') {
+	      const newAttrs = Object.assign({}, attrs || {}, { alpha: true });
+	      return originalGetContext.call(this, type, newAttrs);
+	    }
+	    return originalGetContext.call(this, type, attrs);
+	  };
+
+	  // Also force alpha on OffscreenCanvas contexts (Construct can use this)
+	  if (typeof OffscreenCanvas !== 'undefined') {
+	    const originalOffscreenGetContext = OffscreenCanvas.prototype.getContext;
+	    OffscreenCanvas.prototype.getContext = function(type, attrs){
+	      if (type === 'webgl' || type === 'webgl2') {
+	        const newAttrs = Object.assign({}, attrs || {}, { alpha: true });
+	        return originalOffscreenGetContext.call(this, type, newAttrs);
+	      }
+	      return originalOffscreenGetContext.call(this, type, attrs);
+	    };
+	  }
+	})();
+	</script>
+	<script>
+	// Ensure any dynamically created canvas stays transparent
+	(function(){
+	  function makeTransparent(el){
+	    if (!el) return;
+	    try {
+	      el.style.background = 'transparent';
+	      el.style.backgroundColor = 'transparent';
+	    } catch(e){}
+	  }
+	  const applyAll = () => {
+	    document.querySelectorAll('canvas').forEach(makeTransparent);
+	    makeTransparent(document.body);
+	    makeTransparent(document.documentElement);
+	  };
+	  const mo = new MutationObserver(applyAll);
+	  mo.observe(document.documentElement, { childList: true, subtree: true });
+	  if (document.readyState === 'loading') {
+	    document.addEventListener('DOMContentLoaded', applyAll);
+	  } else {
+	    applyAll();
+	  }
+	})();
+	</script>
+	<script src="scripts/offlineclient.js" type="module"></script>
+	<script src="scripts/main.js" type="module"></script>
+	<script src="scripts/register-sw.js" type="module"></script>
+
+</body> 
+</html>
